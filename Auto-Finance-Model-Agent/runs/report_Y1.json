@@ -1,0 +1,139 @@
+{
+  "label_col": "Y1",
+  "models_trained": [
+    "lr",
+    "rf",
+    "xgb",
+    "mlp"
+  ],
+  "total_train_time_sec": 23.5,
+  "preprocessing": {
+    "diagnosis": {
+      "n_features": 300,
+      "n_samples": 81046,
+      "overall_missing_rate": 0.23639953442078163,
+      "high_missing_cols_gt30pct": 0,
+      "near_zero_variance_cols": 158,
+      "max_feature_range": 4.07189255415521e+19,
+      "min_feature_range": 7.473471196851903e-05,
+      "n_inf_values": 0,
+      "high_corr_pairs_in_sample50": 13
+    },
+    "config": {
+      "use_variance_filter": true,
+      "variance_threshold": 0.01,
+      "use_corr_filter": true,
+      "corr_threshold": 0.95,
+      "scale_method": "standard",
+      "use_pca": true,
+      "pca_components": 0.95
+    },
+    "reasons": [
+      "发现 158 个近零方差特征，启用方差过滤(阈值=0.01)",
+      "抽样50列中发现 13 对高相关(>0.95)，启用相关性过滤",
+      "特征值域差异大(最大范围=40718925541552103424.0)，使用 StandardScaler",
+      "特征数量较多(300)，启用 PCA(保留95%方差)"
+    ]
+  },
+  "leakage_check": {
+    "has_leak": false,
+    "overall_verdict": "[PASS] 所有检测通过，未发现数据泄漏"
+  },
+  "best_by_auc": {
+    "name": "xgb",
+    "metrics": {
+      "auc": 0.5705815345280371,
+      "precision": 0.19314312551367852,
+      "recall": 0.5414746543778802,
+      "f1": 0.28472522717438337
+    },
+    "extra": {
+      "best_iteration": 84,
+      "best_score": 0.5769835583146712,
+      "scale_pos_weight": 5.570729718711782,
+      "time_sec": 1.726
+    }
+  },
+  "all_results": [
+    {
+      "name": "lr",
+      "metrics": {
+        "auc": 0.5539653048741431,
+        "precision": 0.1744186046511628,
+        "recall": 0.004937458854509546,
+        "f1": 0.009603072983354673
+      },
+      "extra": {
+        "time_sec": 0.108
+      }
+    },
+    {
+      "name": "rf",
+      "metrics": {
+        "auc": 0.5603409757617888,
+        "precision": 0.23270440251572327,
+        "recall": 0.024358130348913758,
+        "f1": 0.04410011918951132
+      },
+      "extra": {
+        "time_sec": 10.295
+      }
+    },
+    {
+      "name": "xgb",
+      "metrics": {
+        "auc": 0.5705815345280371,
+        "precision": 0.19314312551367852,
+        "recall": 0.5414746543778802,
+        "f1": 0.28472522717438337
+      },
+      "extra": {
+        "best_iteration": 84,
+        "best_score": 0.5769835583146712,
+        "scale_pos_weight": 5.570729718711782,
+        "time_sec": 1.726
+      }
+    },
+    {
+      "name": "mlp",
+      "metrics": {
+        "auc": 0.5704928945818002,
+        "precision": 0.19049690116342285,
+        "recall": 0.5766951942067149,
+        "f1": 0.2863914997956682,
+        "threshold": 0.5,
+        "confusion": {
+          "tn": 8640,
+          "fp": 7445,
+          "fn": 1286,
+          "tp": 1752
+        }
+      },
+      "extra": {
+        "device": "cpu",
+        "best_val_auc": 0.5732739994706227,
+        "pos_weight": 5.570729718711782,
+        "time_sec": 7.051
+      }
+    }
+  ],
+  "daily_topk_analysis": {
+    "base_rate": 0.15886628667050148,
+    "unique_days": 293,
+    "min_prob": 0.6890255808830261,
+    "traded_days": 74,
+    "topk": [
+      {
+        "k": 5,
+        "avg_pos_rate": 0.2675675675675675,
+        "lift": 1.6842312687934804
+      },
+      {
+        "k": 10,
+        "avg_pos_rate": 0.23513513513513506,
+        "lift": 1.4800820240912402
+      }
+    ]
+  },
+  "agent_system_prompt": "你是一个金融时序数据建模 Agent。你的任务是：\n1. 分析数据特点（缺失值、方差、相关性、数据泄漏）\n2. 根据诊断结果自动决策预处理方案\n3. 训练多种模型（线性模型、树模型、神经网络）\n4. 自动评估所有模型，按 AUC 选择最优\n5. 生成可视化和报告\n\n你需要：\n- 严格按时间切分数据，防止未来数据泄漏\n- imputer/scaler 只在训练集上 fit\n- 使用验证集做早停，测试集做最终评估\n- 计算 AUC/Precision/Recall/F1 四项指标\n- 对最优模型做详细分析"
+}
