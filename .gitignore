@@ -1,0 +1,59 @@
+# 严禁上传敏感密钥
+.env
+.env.*
+secrets.toml
+auth.json
+
+# 向量数据库本地缓存（如 ChromaDB, LanceDB）
+/data/chroma/
+/data/vector_db/
+*.db
+*.sqlite
+
+# 虚拟环境 (隔离性原则)
+.venv/
+venv/
+env/
+ENV/
+lib/
+bin/
+
+# 编译缓存
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# 依赖管理 (保留 pyproject.toml 或 requirements.txt，剔除安装过程文件)
+.python-version
+pip-log.txt
+pip-delete-this-directory.txt
+
+# 大规模数据集与模型权重（应托管至 Hugging Face 或内部 S3）
+/models/
+/weights/
+*.bin
+*.onnx
+*.gguf
+*.pth
+*.h5
+
+# 预处理数据缓存
+/data/raw/
+/data/processed/
+*.csv
+*.jsonl
+*.parquet
+
+# 桌面系统冗余
+.DS_Store
+Thumbs.db
+
+# 编辑器配置 (保持团队环境一致性)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 日志文件
+*.log
+logs/
